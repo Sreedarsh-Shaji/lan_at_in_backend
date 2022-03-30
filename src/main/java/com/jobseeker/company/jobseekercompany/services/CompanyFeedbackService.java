@@ -3,7 +3,7 @@ package com.jobseeker.company.jobseekercompany.services;
 import org.springframework.stereotype.Service;
 
 @Service
-public class FeedbackService {
+public class CompanyFeedbackService {
 
     public boolean leaveFeedback()
     {

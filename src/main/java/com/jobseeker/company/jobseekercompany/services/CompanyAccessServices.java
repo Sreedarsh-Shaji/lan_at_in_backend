@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @Service
-public class AccessServices {
+public class CompanyAccessServices {
 
     public static final String COMPANY_COL_NAME="js-company";
     Firestore dbFirestore = FirestoreClient.getFirestore();

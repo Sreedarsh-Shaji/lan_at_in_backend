@@ -11,11 +11,12 @@ import com.jobseeker.company.jobseekercompany.dto.Company;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @Service
-public class VacancyReportingService {
+public class CompanyVacancyReportingService {
 
     public static final String VACANCY_COL_NAME="js-vacancy";
 
@@ -35,6 +36,15 @@ public class VacancyReportingService {
             System.out.println(document.getId() + " => " + document.toObject(Profile.class));
         }
         return documents.stream().map( a -> a.toObject(Profile.class)).collect(Collectors.toList());
+    }
+
+    public Profile getAVacancyById(String id) throws ExecutionException, InterruptedException {
+        List<Profile> allProfiles = this.getAllVacancies();
+        Optional<Profile> selectedProfile =  allProfiles
+                .stream()
+                .filter( val ->( val.getUuid().equals(id)) ).findFirst();
+        return selectedProfile.get();
+
     }
 
     public List<Profile> getCompanyVacancies(String company) throws ExecutionException, InterruptedException {

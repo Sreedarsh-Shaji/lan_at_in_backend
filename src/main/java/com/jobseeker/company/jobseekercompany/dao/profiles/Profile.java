@@ -1,5 +1,6 @@
 package com.jobseeker.company.jobseekercompany.dao.profiles;
 
+import com.jobseeker.company.jobseekercompany.dto.Company;
 import com.jobseeker.company.jobseekercompany.dto.Education;
 import com.jobseeker.company.jobseekercompany.dto.Skill;
 import lombok.AllArgsConstructor;
@@ -17,15 +18,18 @@ import java.util.UUID;
 public class Profile {
 
     String uuid;
+    String role;
+    String description;
     List<Education> qualification;
     List<Skill> skill;
     int minPay;
     int maxPay;
     String locationOfEmployment;
     String modeOfEmployment;
-    boolean shouldPossesPassport;
-    boolean willingToRelocate;
+    String shouldPossesPassport;
+    String willingToRelocate;
     String linkedInProfile;
+    Company reportingCompany;
 
     public Profile() {
     }

@@ -1,10 +1,9 @@
 package com.jobseeker.company.jobseekercompany.controller;
 
 import com.jobseeker.company.jobseekercompany.dao.profiles.Profile;
-import com.jobseeker.company.jobseekercompany.services.VacancyReportingService;
+import com.jobseeker.company.jobseekercompany.services.CompanyVacancyReportingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,9 +14,9 @@ import java.util.concurrent.ExecutionException;
 @RequestMapping("/hiring")
 @RequiredArgsConstructor
 @Slf4j
-public class HiringController {
+public class CompanyHiringController {
 
-    private final VacancyReportingService service;
+    private final CompanyVacancyReportingService service;
 
     @PostMapping("/save-vacancy")
     private ResponseEntity<?> saveVacancyService(@RequestBody Profile profile) throws ExecutionException, InterruptedException {
@@ -37,6 +36,12 @@ public class HiringController {
     private ResponseEntity<?> getCompanyVacancies(@PathVariable String companyName) throws ExecutionException, InterruptedException {
         log.info("All company listed vacancies!!!");
         return ResponseEntity.ok().body( service.getAllVacancies() );
+    }
+    
+    @GetMapping("/get-vacancy/{id}")
+    private ResponseEntity<?> getSingleVacancy(@PathVariable("id") String id)throws ExecutionException, InterruptedException
+    {
+        return ResponseEntity.ok().body( service.getAVacancyById(id) );
     }
 
     @GetMapping("/close-vacancy")
