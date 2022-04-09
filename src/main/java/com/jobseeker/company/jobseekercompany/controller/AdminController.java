@@ -1,12 +1,10 @@
 package com.jobseeker.company.jobseekercompany.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("Admin")
+@CrossOrigin(origins = "http://ec2-34-224-80-224.compute-1.amazonaws.com:3000")
 public class AdminController {
 
     @GetMapping("/login/{username}/{password}")
