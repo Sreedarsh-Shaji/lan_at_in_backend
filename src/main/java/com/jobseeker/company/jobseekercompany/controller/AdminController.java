@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("Admin")
-@CrossOrigin(origins = "http://ec2-34-224-80-224.compute-1.amazonaws.com:3000")
+@CrossOrigin(origins = "*")
 public class AdminController {
 
     @GetMapping("/login/{username}/{password}")
