@@ -33,6 +33,19 @@ public class JobSeekerAuthenticationController {
         return new ResponseEntity<Jobseeker>( service.loginUser(newUser) , HttpStatus.OK );
     }
 
+    @PostMapping("/login-user-mobile")
+    public ResponseEntity<Jobseeker> loginUserMobile(@RequestBody LoginRequest newUser) throws ExecutionException, InterruptedException {
+        Jobseeker jobSeeker =  service.loginUser(newUser);
+        if(jobSeeker.getEmail()==null)
+        {
+            return new ResponseEntity<Jobseeker>((Jobseeker) null, HttpStatus.NOT_FOUND );
+        }
+        else
+        {
+            return new ResponseEntity<Jobseeker>( service.loginUser(newUser) , HttpStatus.OK );
+        }
+    }
+
     /*
     * This is a test program
     * */
