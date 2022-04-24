@@ -4,6 +4,9 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import com.jobseeker.company.jobseekercompany.dao.Admin;
+import com.jobseeker.company.jobseekercompany.dao.profiles.Profile;
+import com.jobseeker.company.jobseekercompany.dto.Company;
+import com.jobseeker.company.jobseekercompany.dto.Recruiter;
 import com.jobseeker.company.jobseekercompany.utils.password.PasswordHasher;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,7 @@ import java.util.stream.Collectors;
 public class AdminService {
 
     public static final String COL_NAME="js-admin";
+    public static final String COMPANY_COL_NAME="js-company";
     Firestore dbFirestore = FirestoreClient.getFirestore();
 
     public String saveAdminDetails(Admin admin) throws InterruptedException, ExecutionException {
@@ -39,6 +43,17 @@ public class AdminService {
         }else {
             return null;
         }
+    }
+
+
+    public List<Company> getAllCompanies() throws InterruptedException, ExecutionException
+    {
+        ApiFuture<QuerySnapshot> future = dbFirestore.collection(COMPANY_COL_NAME).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        for (QueryDocumentSnapshot document : documents) {
+            System.out.println(document.getId() + " => " + document.toObject(Profile.class));
+        }
+        return documents.stream().map( a -> a.toObject(Company.class)).collect(Collectors.toList());
     }
 
     public String updateAdminDetails(Admin admin) throws InterruptedException, ExecutionException {
