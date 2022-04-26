@@ -27,7 +27,7 @@ public class JobSeekerApplicationController {
     CompanySelectedCandidatesService companySelectedCandidatesService;
 
     @Autowired
-    JobSeekerAccessService jobSeekerAccessService;
+    JobSeekerProfileService jobSeekerProfileService;
 
     @Autowired
     CompanyVacancyReportingService companyVacancyReportingService;
@@ -43,15 +43,13 @@ public class JobSeekerApplicationController {
     public ResponseEntity<String> registerApplication(@RequestParam("user") String user,@RequestParam("vacancy") String vacancy) throws ExecutionException, InterruptedException {
         ApplicationProfile profile = new ApplicationProfile();
 
-        Profile jobseeker = jobSeekerAccessService.getAllUsers()
-                .stream().filter( js -> { return js.getUid().equals(user); } )
-                        .collect(Collectors.toList()).get(0).getProfile();
-
-        Profile applicationProfile = companyVacancyReportingService.getAVacancyById(vacancy);
+        Jobseeker jobseekerObj = jobSeekerProfileService.getUserDetailsById(user);
+        jobseekerObj.setUid(user);
+        Profile vacancyObj = companyVacancyReportingService.getAVacancyById(vacancy);
 
         profile.setUuid(UUID.randomUUID().toString());
-        profile.setProfile(applicationProfile);
-        profile.setProfile(jobseeker);
+        profile.setJobseeker(jobseekerObj);
+        profile.setProfile(vacancyObj);
 
         jobSeekerApplicationService.saveUserApplication(profile);
         return ResponseEntity.ok().body("Applied for position successfully");
