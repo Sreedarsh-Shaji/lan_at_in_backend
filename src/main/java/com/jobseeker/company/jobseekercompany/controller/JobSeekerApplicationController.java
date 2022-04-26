@@ -2,10 +2,9 @@ package com.jobseeker.company.jobseekercompany.controller;
 
 import com.jobseeker.company.jobseekercompany.dao.profiles.ApplicationProfile;
 import com.jobseeker.company.jobseekercompany.dao.profiles.InvitedProfile;
+import com.jobseeker.company.jobseekercompany.dao.profiles.Profile;
 import com.jobseeker.company.jobseekercompany.dto.Jobseeker;
-import com.jobseeker.company.jobseekercompany.services.CompanySelectedCandidatesService;
-import com.jobseeker.company.jobseekercompany.services.JobSeekerAccessService;
-import com.jobseeker.company.jobseekercompany.services.JobSeekerApplicationService;
+import com.jobseeker.company.jobseekercompany.services.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +26,33 @@ public class JobSeekerApplicationController {
     @Autowired
     CompanySelectedCandidatesService companySelectedCandidatesService;
 
+    @Autowired
+    JobSeekerAccessService jobSeekerAccessService;
+
+    @Autowired
+    CompanyVacancyReportingService companyVacancyReportingService;
+
     @PostMapping("/apply")
     public ResponseEntity<String> registerApplication(@RequestBody ApplicationProfile profile) throws ExecutionException, InterruptedException {
         profile.setUuid(UUID.randomUUID().toString());
+        jobSeekerApplicationService.saveUserApplication(profile);
+        return ResponseEntity.ok().body("Applied for position successfully");
+    }
+
+    @PostMapping("/apply-mobile")
+    public ResponseEntity<String> registerApplication(@RequestParam("user") String user,@RequestParam("vacancy") String vacancy) throws ExecutionException, InterruptedException {
+        ApplicationProfile profile = new ApplicationProfile();
+
+        Profile jobseeker = jobSeekerAccessService.getAllUsers()
+                .stream().filter( js -> { return js.getUid().equals(user); } )
+                        .collect(Collectors.toList()).get(0).getProfile();
+
+        Profile applicationProfile = companyVacancyReportingService.getAVacancyById(vacancy);
+
+        profile.setUuid(UUID.randomUUID().toString());
+        profile.setProfile(applicationProfile);
+        profile.setProfile(jobseeker);
+
         jobSeekerApplicationService.saveUserApplication(profile);
         return ResponseEntity.ok().body("Applied for position successfully");
     }
