@@ -37,9 +37,15 @@ public class CompanyHiringController {
         log.info("All company listed vacancies!!!");
         return ResponseEntity.ok().body( service.getAllVacancies() );
     }
-    
+
     @GetMapping("/get-vacancy/{id}")
     private ResponseEntity<?> getSingleVacancy(@PathVariable("id") String id)throws ExecutionException, InterruptedException
+    {
+        return ResponseEntity.ok().body( service.getAVacancyById(id) );
+    }
+
+    @GetMapping("/get-vacancy/mobile")
+    private ResponseEntity<?> getSingleVacancyMobile(@RequestParam("id") String id)throws ExecutionException, InterruptedException
     {
         return ResponseEntity.ok().body( service.getAVacancyById(id) );
     }
