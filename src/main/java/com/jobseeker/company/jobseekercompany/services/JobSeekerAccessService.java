@@ -50,4 +50,12 @@ public class JobSeekerAccessService {
         }
     }
 
+    public boolean update(Jobseeker jobseeker) throws ExecutionException, InterruptedException {
+
+            ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection(COMPANY_COL_NAME)
+                    .document(jobseeker.getUid()).set(jobseeker);
+            return true;
+        
+    }
+
 }
