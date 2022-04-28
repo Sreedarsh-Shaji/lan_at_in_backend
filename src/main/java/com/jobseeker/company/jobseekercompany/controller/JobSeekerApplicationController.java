@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -55,7 +56,7 @@ public class JobSeekerApplicationController {
         return ResponseEntity.ok().body("Applied for position successfully");
     }
 
-    @GetMapping("/get-bt-mail/{mail}")
+    @GetMapping("/get-by-mail/{mail}")
     public ResponseEntity<List<ApplicationProfile>> getAllBasedOnMail(@PathVariable(value = "mail") String email) throws ExecutionException, InterruptedException {
         return ResponseEntity.ok().body(jobSeekerApplicationService.getByMail(email));
     }
@@ -63,6 +64,23 @@ public class JobSeekerApplicationController {
     @GetMapping("/get-bt-id/mobile")
     public ResponseEntity<List<ApplicationProfile>> getAllBasedOnIdMobile(@RequestParam(value = "id") String id) throws ExecutionException, InterruptedException {
         return ResponseEntity.ok().body(jobSeekerApplicationService.getById(id));
+    }
+
+
+    @GetMapping("/get-all-invited")
+    ResponseEntity<List<InvitedProfile>> getAllInvited(@RequestParam("mail") String mailId) throws ExecutionException, InterruptedException {
+        List<InvitedProfile> invitedProfiles = companySelectedCandidatesService.getAllInvites();
+        List<InvitedProfile> invitedProfilesFiltered = new ArrayList<>();
+
+        for (InvitedProfile tempInvitedProfile: invitedProfiles) {
+
+            if ( tempInvitedProfile.getApplicationProfile().getJobseeker().getEmail().equals(mailId) )
+            {
+                invitedProfilesFiltered.add(tempInvitedProfile);
+            }
+
+        }
+        return ResponseEntity.ok(invitedProfilesFiltered);
     }
 
 }

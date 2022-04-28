@@ -29,8 +29,31 @@ public class JobSeekerAuthenticationController {
     }
 
     @PostMapping("/login-user")
-    public ResponseEntity<Jobseeker> loginUser(@RequestBody LoginRequest newUser) throws ExecutionException, InterruptedException {
-        return new ResponseEntity<Jobseeker>( service.loginUser(newUser) , HttpStatus.OK );
+    public ResponseEntity loginUser(@RequestBody LoginRequest newUser) throws ExecutionException, InterruptedException {
+
+        System.out.println(newUser.getUsername());
+        System.out.println(newUser.getPassword());
+
+        List<Jobseeker> jobseekers = service.getAllUsers();
+        Jobseeker jobseeker = null;
+
+        for (Jobseeker temp: jobseekers) {
+            System.out.println(" Comparing : " + temp.getEmail());
+            System.out.println( newUser.getUsername() + "==" + temp.getEmail() );
+            System.out.println( newUser.getUsername().trim().equals(temp.getEmail().trim()) );
+            System.out.println( newUser.getPassword() + "==" + temp.getPassword() );
+            System.out.println( newUser.getPassword().trim().equals(temp.getPassword().trim()) );
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+
+            if( newUser.getUsername().trim().equals(temp.getEmail().trim()) && newUser.getPassword().trim().equals(temp.getPassword().trim()))
+            {
+                jobseeker = temp;
+            }
+        }
+
+        System.out.println("Found a user matching : " + jobseeker );
+
+        return ResponseEntity.ok( jobseeker );
     }
 
     @PostMapping("/login-user-mobile")

@@ -46,7 +46,12 @@ public class JobSeekerApplicationService {
     }
 
     public List<ApplicationProfile> getByMail(String mail) throws ExecutionException, InterruptedException {
-        return this.getAll().stream().filter(f -> f.getJobseeker().getEmail().equals(mail)).collect(Collectors.toList());
+        List<ApplicationProfile> applicationProfiles = this.getAll();
+        List<ApplicationProfile> filteredApplicationProfiles =
+                applicationProfiles.stream().filter( profile -> {
+                    return profile.getJobseeker().getEmail().equals(mail);
+                } ).collect(Collectors.toList());
+        return filteredApplicationProfiles;
     }
 
     public List<ApplicationProfile> getById(String id) throws ExecutionException, InterruptedException {

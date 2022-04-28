@@ -4,10 +4,7 @@ import com.jobseeker.company.jobseekercompany.dto.CareerPath;
 import com.jobseeker.company.jobseekercompany.services.CareerPathService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -24,6 +21,12 @@ public class CareerPathController {
         careerPath.setId(UUID.randomUUID().toString());
         service.saveCareerPath(careerPath);
         return ResponseEntity.ok("Saved");
+    }
+
+
+    @GetMapping("/get-all")
+    ResponseEntity getAllCareerPath() throws ExecutionException, InterruptedException {
+        return ResponseEntity.ok( service.getAllCareerPath() );
     }
 
 }

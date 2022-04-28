@@ -24,18 +24,22 @@ public class JobSeekerAccessService {
     public List<Jobseeker> getAllUsers() throws InterruptedException, ExecutionException {
         ApiFuture<QuerySnapshot> future = dbFirestore.collection(COMPANY_COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-        for (QueryDocumentSnapshot document : documents) {
-            System.out.println(document.getId() + " => " + document.toObject(Jobseeker.class));
-        }
         return documents.stream().map( a -> a.toObject(Jobseeker.class)).collect(Collectors.toList());
     }
 
     public Jobseeker loginUser(LoginRequest credentials) throws ExecutionException, InterruptedException {
-        Optional<Jobseeker> company = getAllUsers()
-                .stream()
-                .filter( c -> ( c.getEmail().equals(credentials.getUsername()) && c.getPassword().equals(credentials.getPassword()) ) )
-                .findFirst();
-        return company.isPresent()? company.get() : null;
+        List<Jobseeker> jobseekers = getAllUsers();
+        Jobseeker jobseeker = new Jobseeker();
+
+        for (Jobseeker temp: jobseekers) {
+            if( temp.getEmail().equals(credentials.getUsername()) && temp.getPassword().equals(credentials.getPassword()))
+            {
+                jobseeker = temp;
+            }
+        }
+
+        System.out.println(jobseeker);
+        return jobseeker.getEmail()== null || jobseeker.getEmail().equals("")? jobseeker : null;
     }
 
     public boolean saveUserDetails(Jobseeker jobseeker) throws ExecutionException, InterruptedException {

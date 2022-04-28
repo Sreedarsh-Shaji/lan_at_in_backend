@@ -36,9 +36,6 @@ public class CompanySelectedCandidatesService {
     public List<InvitedProfile> getAllInvites() throws ExecutionException, InterruptedException {
         ApiFuture<QuerySnapshot> future = dbFirestore.collection(COMPANY_COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-        for (QueryDocumentSnapshot document : documents) {
-            System.out.println(document.getId() + " => " + document.toObject(InvitedProfile.class));
-        }
         return documents.stream().map( a -> a.toObject(InvitedProfile.class)).collect(Collectors.toList());
     }
 
