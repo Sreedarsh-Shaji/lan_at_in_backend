@@ -60,4 +60,9 @@ public class JobSeekerApplicationController {
         return ResponseEntity.ok().body(jobSeekerApplicationService.getByMail(email));
     }
 
+    @GetMapping("/get-bt-id/mobile")
+    public ResponseEntity<List<ApplicationProfile>> getAllBasedOnIdMobile(@RequestParam(value = "id") String id) throws ExecutionException, InterruptedException {
+        return ResponseEntity.ok().body(jobSeekerApplicationService.getById(id));
+    }
+
 }
