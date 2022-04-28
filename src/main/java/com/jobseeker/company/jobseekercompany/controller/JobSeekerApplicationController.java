@@ -39,7 +39,7 @@ public class JobSeekerApplicationController {
         return ResponseEntity.ok().body("Applied for position successfully");
     }
 
-    @PostMapping("/apply-mobile")
+    @GetMapping("/apply-mobile")
     public ResponseEntity<String> registerApplication(@RequestParam("user") String user,@RequestParam("vacancy") String vacancy) throws ExecutionException, InterruptedException {
         ApplicationProfile profile = new ApplicationProfile();
 
