@@ -58,15 +58,23 @@ public class JobSeekerAuthenticationController {
 
     @PostMapping("/login-user-mobile")
     public ResponseEntity<Jobseeker> loginUserMobile(@RequestBody LoginRequest newUser) throws ExecutionException, InterruptedException {
-        Jobseeker jobSeeker =  service.loginUser(newUser);
-        if(jobSeeker.getEmail()==null)
-        {
-            return new ResponseEntity<Jobseeker>((Jobseeker) null, HttpStatus.NOT_FOUND );
+        List<Jobseeker> jobseekers = service.getAllUsers();
+        Jobseeker jobseeker = null;
+
+        for (Jobseeker temp: jobseekers) {
+            System.out.println(" Comparing : " + temp.getEmail());
+            System.out.println( newUser.getUsername() + "==" + temp.getEmail() );
+            System.out.println( newUser.getUsername().trim().equals(temp.getEmail().trim()) );
+            System.out.println( newUser.getPassword() + "==" + temp.getPassword() );
+            System.out.println( newUser.getPassword().trim().equals(temp.getPassword().trim()) );
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+
+            if( newUser.getUsername().trim().equals(temp.getEmail().trim()) && newUser.getPassword().trim().equals(temp.getPassword().trim()))
+            {
+                jobseeker = temp;
+            }
         }
-        else
-        {
-            return new ResponseEntity<Jobseeker>( service.loginUser(newUser) , HttpStatus.OK );
-        }
+        return jobseeker == null ? ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build() : ResponseEntity.ok( jobseeker );
     }
 
     /*
