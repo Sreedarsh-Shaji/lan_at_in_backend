@@ -37,10 +37,5 @@ public class CompanyApplicationController {
                 .filter( f -> f.getEmail().equalsIgnoreCase(email)).collect(Collectors.toList()).get(0));
     }
 
-    @GetMapping("/get-by-uid/mobile")
-    ResponseEntity<Jobseeker> getCandidateByUserId(@PathVariable String id) throws ExecutionException, InterruptedException {
-        return ResponseEntity.ok().body(jobSeekerAccessService.getAllUsers().stream()
-                .filter( f -> f.getUid().equalsIgnoreCase(id)).collect(Collectors.toList()).get(0));
-    }
 
 }
