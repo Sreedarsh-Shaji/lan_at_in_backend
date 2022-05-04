@@ -17,4 +17,6 @@ public class CareerPath {
     String postGrad;
     String role;
 
+    String studentEmail;
+
 }
