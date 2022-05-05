@@ -99,4 +99,18 @@ public class JobSeekerApplicationController {
         return ResponseEntity.ok(invitedProfilesFiltered);
     }
 
+    @GetMapping("/get-invitation/mobile")
+    ResponseEntity<InvitedProfile> getAnInvitedProfileMobile(@RequestParam("uuid") String uuid) throws ExecutionException, InterruptedException {
+        List<InvitedProfile> invitedProfiles = companySelectedCandidatesService.getAllInvites();
+        InvitedProfile invitedProfile = new InvitedProfile();
+
+        for (InvitedProfile tempInvitedProfile: invitedProfiles) {
+            if ( tempInvitedProfile.getUuid().equals(uuid) )
+            {
+                return ResponseEntity.ok(tempInvitedProfile);
+            }
+        }
+        return ResponseEntity.ok(invitedProfile);
+    }
+
 }
