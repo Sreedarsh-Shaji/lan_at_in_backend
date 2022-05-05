@@ -86,12 +86,12 @@ public class JobSeekerApplicationController {
     }
 
     @GetMapping("/get-all-invited/mobile")
-    ResponseEntity<List<InvitedProfile>> getAllInvitedByUidForMobile(@RequestParam("uid") String uid) throws ExecutionException, InterruptedException {
+    ResponseEntity<List<InvitedProfile>> getAllInvitedByUidForMobile(@RequestParam("mail") String mail) throws ExecutionException, InterruptedException {
         List<InvitedProfile> invitedProfiles = companySelectedCandidatesService.getAllInvites();
         List<InvitedProfile> invitedProfilesFiltered = new ArrayList<>();
 
         for (InvitedProfile tempInvitedProfile: invitedProfiles) {
-            if ( tempInvitedProfile.getApplicationProfile().getJobseeker().getUid().equals(uid) )
+            if ( tempInvitedProfile.getApplicationProfile().getJobseeker().getEmail().equals(mail) )
             {
                 invitedProfilesFiltered.add(tempInvitedProfile);
             }
