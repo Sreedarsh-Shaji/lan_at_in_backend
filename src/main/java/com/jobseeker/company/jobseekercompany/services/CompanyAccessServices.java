@@ -46,10 +46,17 @@ public class CompanyAccessServices {
     }
 
     public Company loginCompany(Credentials credentials) throws ExecutionException, InterruptedException {
-        Optional<Company> company = getAllCompanies()
-                .stream()
-                .filter( c -> ( c.getEmail().equals(credentials.getEmail()) && c.getPassword().equals(credentials.getPassword()) ) )
-                .findFirst();
-        return company.isPresent()? company.get() : null;
+        List<Company> companyList = getAllCompanies();
+        Company selectedCompany =new Company();
+
+        for (Company c: companyList) {
+            if(c.getEmail().equalsIgnoreCase(credentials.getEmail())
+                    &&c.getPassword().equalsIgnoreCase(credentials.getPassword()) )
+            {
+                return c;
+            }
+        }
+
+        return selectedCompany.getEmail() != null? selectedCompany : null;
     }
 }
