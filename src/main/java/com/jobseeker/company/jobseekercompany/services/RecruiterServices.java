@@ -53,4 +53,10 @@ public class RecruiterServices {
         return "Saved successfully";
     }
 
+    public List<InvitedProfile> getAllSelectedProfiles() throws ExecutionException, InterruptedException {
+        ApiFuture<QuerySnapshot> future = dbFirestore.collection("js-selected").get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        return documents.stream().map( a -> a.toObject(InvitedProfile.class)).collect(Collectors.toList());
+    }
+
 }

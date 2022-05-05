@@ -10,11 +10,13 @@ import com.jobseeker.company.jobseekercompany.services.RecruiterServices;
 import com.jobseeker.company.jobseekercompany.utils.enums.ROLES;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/recruiter")
@@ -48,6 +50,12 @@ public class RecruiterAccessController {
         //return company != null ? ResponseEntity.ok().body(company) : ResponseEntity.ok().body("User dosn't exist");
     }
 
+    @GetMapping("/get-selected-candidate/mobile")
+    public ResponseEntity getSelectedCandidates(@RequestParam("mail") String mail) throws ExecutionException, InterruptedException {
+       return ResponseEntity.ok(recruiterServices.getAllSelectedProfiles().stream().filter(
+                profile -> { return profile.getApplicationProfile().getJobseeker().getEmail().equalsIgnoreCase(mail); }
+        ).collect(Collectors.toList()));
+    }
 
 
 }
