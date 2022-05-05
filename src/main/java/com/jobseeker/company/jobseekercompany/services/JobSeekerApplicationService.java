@@ -14,6 +14,7 @@ import com.jobseeker.company.jobseekercompany.dto.Company;
 import com.jobseeker.company.jobseekercompany.dto.Jobseeker;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -52,6 +53,19 @@ public class JobSeekerApplicationService {
                     return profile.getJobseeker().getEmail().equals(mail);
                 } ).collect(Collectors.toList());
         return filteredApplicationProfiles;
+    }
+
+    public List<Profile> getByMailMobile(String mail) throws ExecutionException, InterruptedException {
+        List<ApplicationProfile> applicationProfiles = this.getAll();
+        List<ApplicationProfile> filteredApplicationProfiles =
+                applicationProfiles.stream().filter( profile -> {
+                    return profile.getJobseeker().getEmail().equals(mail);
+                } ).collect(Collectors.toList());
+        List<Profile> profiles = new ArrayList<>();
+        for (ApplicationProfile tempAP: filteredApplicationProfiles) {
+            profiles.add(tempAP.getProfile());
+        }
+        return profiles;
     }
 
     public List<ApplicationProfile> getById(String id) throws ExecutionException, InterruptedException {

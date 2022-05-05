@@ -62,8 +62,8 @@ public class JobSeekerApplicationController {
     }
 
     @GetMapping("/get-by-mail/mobile")
-    public ResponseEntity<List<ApplicationProfile>> getAllBasedOnIdMobile(@RequestParam(value = "mail") String email) throws ExecutionException, InterruptedException {
-        return ResponseEntity.ok().body(jobSeekerApplicationService.getByMail(email));
+    public ResponseEntity<List<Profile>> getAllBasedOnIdMobile(@RequestParam(value = "mail") String email) throws ExecutionException, InterruptedException {
+        return ResponseEntity.ok().body(jobSeekerApplicationService.getByMailMobile(email));
     }
 
 
