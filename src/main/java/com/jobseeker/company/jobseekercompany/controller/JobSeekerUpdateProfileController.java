@@ -55,7 +55,7 @@ public class JobSeekerUpdateProfileController {
     @GetMapping("is-profile-set")
     public ResponseEntity isProfileUpdated(@RequestParam("id") String id) throws ExecutionException, InterruptedException {
         Jobseeker jobSeeker = jobSeekerAccessService.getAllUsers().stream()
-                .filter(jobseeker -> { return jobseeker.getUid().equals(id) ? true : false;})
+                .filter(jobseeker -> { return jobseeker.getEmail().equals(id) ? true : false;})
                 .collect(Collectors.toList()).get(0);
 
         boolean isSet = jobSeeker.getProfile()==(null) ? false : true;
