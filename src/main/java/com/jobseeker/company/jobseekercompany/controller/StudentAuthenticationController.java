@@ -5,6 +5,7 @@ import com.jobseeker.company.jobseekercompany.dto.LoginRequest;
 import com.jobseeker.company.jobseekercompany.dto.Student;
 import com.jobseeker.company.jobseekercompany.services.JobSeekerAccessService;
 import com.jobseeker.company.jobseekercompany.services.StudentAccessServices;
+import com.jobseeker.company.jobseekercompany.utils.enums.ROLES;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,6 +98,7 @@ public class StudentAuthenticationController {
     @PostMapping("/signup")
     public ResponseEntity signup(@RequestBody Student student) throws ExecutionException, InterruptedException {
         student.setUid(UUID.randomUUID().toString());
+        student.setRole(ROLES.STUDENT);
         accessServices.saveStudent(student);
         return ResponseEntity.ok("Saved");
     }
