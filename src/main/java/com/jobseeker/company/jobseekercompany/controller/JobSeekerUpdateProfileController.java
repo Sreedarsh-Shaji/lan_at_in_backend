@@ -52,6 +52,15 @@ public class JobSeekerUpdateProfileController {
         return ResponseEntity.ok("Saved profile details");
     }
 
+    @GetMapping("/get-by-mail")
+    public ResponseEntity getProfileDetailsByMail(@RequestParam("mail") String mail) throws ExecutionException, InterruptedException {
+        List<Jobseeker> jobSeeker = jobSeekerAccessService.getAllUsers().stream()
+                .filter(jobseeker -> { return jobseeker.getEmail().equals(mail) ? true : false;})
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(jobSeeker.size()>0 ? jobSeeker.get(0) : null);
+    }
+
     @GetMapping("is-profile-set")
     public ResponseEntity isProfileUpdated(@RequestParam("id") String id) throws ExecutionException, InterruptedException {
         Jobseeker jobSeeker = jobSeekerAccessService.getAllUsers().stream()
