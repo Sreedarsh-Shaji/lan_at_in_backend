@@ -32,6 +32,11 @@ public class StudentAccessServices {
         return documents.stream().map( a -> a.toObject(Student.class)).collect(Collectors.toList());
     }
 
+
+    public void saveStudent(Student student) throws InterruptedException, ExecutionException {
+        dbFirestore.collection(STUDENT_COL_NAME).document(student.getUid()).set(student);
+    }
+
     public Student loginRecruiter(LoginRequest recruiter) throws ExecutionException, InterruptedException {
         Optional<Student> students = getAllStudents()
                 .stream()

@@ -6,6 +6,7 @@ import com.jobseeker.company.jobseekercompany.dto.Student;
 import com.jobseeker.company.jobseekercompany.services.JobSeekerAccessService;
 import com.jobseeker.company.jobseekercompany.services.StudentAccessServices;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.RecursiveTask;
 
 @RestController
 @Slf4j
@@ -90,6 +92,12 @@ public class StudentAuthenticationController {
             return accessServices.getAllStudents();
         }
         return null;
+    }
+
+    @GetMapping("/signup")
+    public ResponseEntity signup(@RequestBody Student student) throws ExecutionException, InterruptedException {
+        accessServices.saveStudent(student);
+        return ResponseEntity.ok("Saved");
     }
 
     @PostMapping("/upgrade")
