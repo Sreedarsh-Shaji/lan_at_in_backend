@@ -31,6 +31,12 @@ public class Profile {
     String linkedInProfile;
     Company reportingCompany;
 
+    String profileTitle;
+    String profileDescription;
+    String age;
+    String gender;
+    String address;
+
     public Profile() {
     }
 }
