@@ -96,6 +96,7 @@ public class StudentAuthenticationController {
 
     @PostMapping("/signup")
     public ResponseEntity signup(@RequestBody Student student) throws ExecutionException, InterruptedException {
+        student.setUid(UUID.randomUUID().toString());
         accessServices.saveStudent(student);
         return ResponseEntity.ok("Saved");
     }
