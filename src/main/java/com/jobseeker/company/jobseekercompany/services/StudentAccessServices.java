@@ -6,9 +6,11 @@ import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.firebase.cloud.FirestoreClient;
 import com.jobseeker.company.jobseekercompany.dao.profiles.Profile;
+import com.jobseeker.company.jobseekercompany.dto.Jobseeker;
 import com.jobseeker.company.jobseekercompany.dto.LoginRequest;
 import com.jobseeker.company.jobseekercompany.dto.Recruiter;
 import com.jobseeker.company.jobseekercompany.dto.Student;
+import com.jobseeker.company.jobseekercompany.utils.enums.ROLES;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -37,5 +39,22 @@ public class StudentAccessServices {
                 .findFirst();
 
         return students.isPresent() ? students.get() : null;
+    }
+
+
+    public Jobseeker upgrade(String email) throws ExecutionException, InterruptedException {
+        Student student = this.getAllStudents().stream().filter( student1 -> student1.getEmail().equals(email) ).collect(Collectors.toList()).get(0);
+        dbFirestore.collection(STUDENT_COL_NAME).document(student.getUid()).delete();
+
+        Jobseeker jobSeeker = new Jobseeker();
+        jobSeeker.setUid(student.getUid());
+        jobSeeker.setName(student.getName());
+        jobSeeker.setPassword(student.getPassword());
+        jobSeeker.setEmail(student.getEmail());
+        jobSeeker.setPhone(student.getPhone());
+        jobSeeker.setRole(ROLES.JOBSEEKER);
+
+        dbFirestore.collection("js-jobseeker").document(jobSeeker.getUid()).set(jobSeeker);
+        return jobSeeker;
     }
 }

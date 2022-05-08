@@ -92,4 +92,9 @@ public class StudentAuthenticationController {
         return null;
     }
 
+    @PostMapping("/upgrade")
+    public ResponseEntity upgradeStudent(@RequestParam("email") String email) throws ExecutionException, InterruptedException {
+        return ResponseEntity.ok(accessServices.upgrade(email));
+    }
+
 }
