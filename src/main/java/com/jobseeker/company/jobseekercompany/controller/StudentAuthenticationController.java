@@ -94,7 +94,7 @@ public class StudentAuthenticationController {
         return null;
     }
 
-    @GetMapping("/signup")
+    @PostMapping("/signup")
     public ResponseEntity signup(@RequestBody Student student) throws ExecutionException, InterruptedException {
         accessServices.saveStudent(student);
         return ResponseEntity.ok("Saved");
