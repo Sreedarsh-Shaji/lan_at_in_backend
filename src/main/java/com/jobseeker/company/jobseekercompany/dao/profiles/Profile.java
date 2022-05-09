@@ -14,6 +14,7 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class Profile {
 
@@ -37,6 +38,4 @@ public class Profile {
     String gender;
     String address;
 
-    public Profile() {
-    }
 }

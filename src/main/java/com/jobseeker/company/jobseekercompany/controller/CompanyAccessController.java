@@ -27,6 +27,7 @@ public class CompanyAccessController {
     public ResponseEntity<?> companySignup(@RequestBody Company company) throws ExecutionException, InterruptedException {
         company.setUid(UUID.randomUUID().toString());
         company.setRole(ROLES.COMPANY);
+        company.setApprovalStatus("PENDING");
         return ResponseEntity.ok().body( companyAccessServices.saveCompany(company) ? "Saved" : "Duplicate mail id" );
     }
 

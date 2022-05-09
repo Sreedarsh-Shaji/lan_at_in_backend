@@ -23,6 +23,7 @@ public class CareerPathService {
     Firestore dbFirestore = FirestoreClient.getFirestore();
 
     public String saveCareerPath(CareerPath careerPath) throws InterruptedException, ExecutionException {
+        careerPath.setStudentEmail("");
         ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection(COL_NAME).document(careerPath.getId().toString()).set(careerPath);
         return collectionsApiFuture.get().getUpdateTime().toString();
     }

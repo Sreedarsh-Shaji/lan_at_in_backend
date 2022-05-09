@@ -57,12 +57,9 @@ public class JobSeekerApplicationService {
 
     public List<Profile> getByMailMobile(String mail) throws ExecutionException, InterruptedException {
         List<ApplicationProfile> applicationProfiles = this.getAll();
-        List<ApplicationProfile> filteredApplicationProfiles =
-                applicationProfiles.stream().filter( profile -> {
-                    return profile.getJobseeker().getEmail().equals(mail);
-                } ).collect(Collectors.toList());
+
         List<Profile> profiles = new ArrayList<>();
-        for (ApplicationProfile tempAP: filteredApplicationProfiles) {
+        for (ApplicationProfile tempAP: applicationProfiles) {
             profiles.add(tempAP.getProfile());
         }
         return profiles;

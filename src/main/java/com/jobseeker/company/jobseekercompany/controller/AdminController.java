@@ -29,7 +29,10 @@ public class AdminController {
 
     @GetMapping("/view-all-companies")
     public ResponseEntity getAllCompanies() throws ExecutionException, InterruptedException {
+
         return ResponseEntity.ok(adminService.getAllCompanies()) ;
     }
+
+
 
 }

@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 @Data
 public class Company extends User {
    private ROLES role = ROLES.COMPANY;
+   String approvalStatus;
 }

@@ -8,6 +8,7 @@ import com.jobseeker.company.jobseekercompany.dao.profiles.Profile;
 import com.jobseeker.company.jobseekercompany.dto.Company;
 import com.jobseeker.company.jobseekercompany.dto.Recruiter;
 import com.jobseeker.company.jobseekercompany.utils.password.PasswordHasher;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,6 +22,9 @@ public class AdminService {
     public static final String COL_NAME="js-admin";
     public static final String COMPANY_COL_NAME="js-company";
     Firestore dbFirestore = FirestoreClient.getFirestore();
+
+    @Autowired
+    CompanyAccessServices companyAccessServices;
 
     public String saveAdminDetails(Admin admin) throws InterruptedException, ExecutionException {
 
@@ -89,5 +93,18 @@ public class AdminService {
 
         return credsMatchedAdmin == null ? true : false;
     }
+
+//    public Company approveACompany(String cid) throws ExecutionException, InterruptedException {
+//        List<Company> companyList = companyAccessServices.getAllCompanies();
+//
+//        Company selectedCompany = new Company();
+//
+//        for (Company temp : companyList){
+//            if(temp.getUid().equals(cid));
+//        }
+//
+//
+//        dbFirestore.collection(COL_NAME).document(admin.getName()).set(admin)
+//    }
 
 }
